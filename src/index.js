@@ -86,7 +86,7 @@ app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
   idTodo.title = title;
   idTodo.deadline = deadline;
 
-  return response.status(204).json(idTodo);
+  return response.json(idTodo);
 });
 
 app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
@@ -103,7 +103,7 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
 
   idUser.done = true;
   
-  return response.status(204).json(idUser);
+  return response.json(idUser);
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
