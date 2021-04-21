@@ -36,6 +36,12 @@ app.post('/users', (request, response) => {
     todos: []
   };
 
+  if(user){
+    return response.status(400).json({
+      error: "User exists!"
+    });
+  }
+
   users.push(user);
 
   return response.status(201).json(user);
@@ -58,12 +64,27 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
     created_at: new Date()
   };
   userMiddleware.todos.push(todo);
-  
+
   return response.status(201).json(todo);
 });
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const { userMiddleware } = request;
+  const { title, deadline } = request.body;
+  const { id } = request.params;
+
+  const idTodo = userMiddleware.todos.find((user) => user.id === id);
+
+  if(!idTodo){
+    return response.status(404).json({
+      error: "TODO exists!"
+    });
+  }
+
+  idTodo.title = title;
+  idTodo.deadline = deadline;
+
+  return response.status(204).json(idTodo);
 });
 
 app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
